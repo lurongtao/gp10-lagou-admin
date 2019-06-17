@@ -1,0 +1,10 @@
+2019-06-17
+gulp:
+- server
+- sass
+- js module
+- mock
+- version controll
+
+安装的包：
+yarn global add webpack webpack-cli webpack-dev-server
