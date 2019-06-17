@@ -19,7 +19,12 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, './dev'),
     compress: true,
-    port: 8000
+    port: 8000,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000'
+      }
+    }
   },
 
   // 配置loader
@@ -35,6 +40,10 @@ module.exports = {
             }
           },
         ],
+      },
+      {
+        test: /\.(scss|css)$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.html$/i,
