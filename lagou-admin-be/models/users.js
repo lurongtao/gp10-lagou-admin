@@ -14,6 +14,11 @@ const userModel = {
     const users = new this.UserModel(data)
     // 执行插入操作
     return users.save()
+  },
+
+  // 查询单个用户数据
+  findOne(username) {
+    return this.UserModel.findOne({username})
   }
 }
 
