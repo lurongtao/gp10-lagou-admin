@@ -2,57 +2,78 @@ const userModel = require('../models/users')
 const bcrypt = require('bcrypt')
 
 class UserController {
-  _hashPassword(pwd, cb) {
-    return new Promise((resolve, reject) => {
+  hashPassword(pwd) {
+    return new Promise((resolve) => {
       bcrypt.hash(pwd, 10, (err, hash) => {
         resolve(hash)
       })
     })
   }
 
-  _comparePassword() {
-
+  comparePassword(pwd, hash) {
+    return new Promise((resolve) => {
+      bcrypt.compare(pwd, hash, function(err, res) {
+        resolve(res)
+      })
+    })
   }
 
   async signup(req, res, next) {
+
+    let user = await userModel.select(req.body)
+    if (user) {
+      res.render('succ', {
+        data: JSON.stringify({
+          message: '用户名已经存在。'
+        })
+      })
+      return
+    }
+
     res.set('Content-Type', 'application/json; charset=utf-8')
 
-    // 密码加密
-    let password = req.body.password
-    let hash = await userController._hashPassword(password)
-    let result = await userModel.save({...req.body, password: hash})
+    let password = await userController.hashPassword(req.body.password)
+    let result = await userModel.insert({
+      ...req.body,
+      password
+    })
 
-    // 给前端构建json接口
     if (result) {
       res.render('succ', {
         data: JSON.stringify({
-          message: '数据插入成功.'
+          message: '用户注册成功。'
         })
       })
     } else {
       res.render('fail', {
         data: JSON.stringify({
-          message: '数据插入失败.'
+          message: '用户注册失败。'
         })
       })
     }
   }
 
   async signin(req, res, next) {
-    res.set('Content-Type', 'application/json; charset=utf-8')
+    let result = await userModel.select(req.body)
 
-    let result = await userModel.findOne(req.body.username)
-    // 给前端构建json接口
     if (result) {
-      res.render('succ', {
-        data: JSON.stringify({
-          message: '用户登录成功.'
+      if (await userController.comparePassword(req.body.password, result['password'])) {
+        res.render('succ', {
+          data: JSON.stringify({
+            message: '登录成功。'
+          })
         })
-      })
+      } else {
+        res.render('fail', {
+          data: JSON.stringify({
+            message: '密码错误。'
+          })
+        })
+      }
     } else {
       res.render('fail', {
         data: JSON.stringify({
-          message: '用户登录失败.'
+          message: '用户不存在。'
         })
       })
     }
