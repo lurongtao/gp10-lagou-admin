@@ -11,3 +11,10 @@ yarn global add webpack webpack-cli webpack-dev-server
 
 2019-06-18
 Node.js框架：express, koa2, adonis, egg
+
+cookie, session
+1、在服务器端产生一个随机的session字符串，这个字符串可以存在内存里
+2、后端种cookie到前端，cookie里存储session随机串
+3、当用户第二次访问某个页面的时候，由于域名相同，因此会自动讲浏览器端的cookie带到后端
+4、后台会根据浏览器端返回的cookie做认证，如果匹配，认为用户有权限访问资源
+5、注销用户，将session清空即可

@@ -54,12 +54,17 @@ class UserController {
   }
 
   async signin(req, res, next) {
+    res.set('Content-Type', 'application/json; charset=utf-8')
+
     let result = await userModel.select(req.body)
 
     if (result) {
       if (await userController.comparePassword(req.body.password, result['password'])) {
+        // 创建session, 保存用户名
+        req.session.username = result['username']
         res.render('succ', {
           data: JSON.stringify({
+            username: result['username'],
             message: '登录成功。'
           })
         })
@@ -77,6 +82,33 @@ class UserController {
         })
       })
     }
+  }
+
+  issignin(req, res, next) {
+    res.set('Content-Type', 'application/json; charset=utf-8')
+    if (req.session.username) {
+      res.render('succ', {
+        data: JSON.stringify({
+          username: req.session.username,
+          isSignin: true
+        })
+      })
+    } else {
+      res.render('succ', {
+        data: JSON.stringify({
+          isSignin: false
+        })
+      })
+    }
+  }
+
+  signout(req, res, next) {
+    req.session = null
+    res.render('succ', {
+      data: JSON.stringify({
+        isSignin: false
+      })
+    })
   }
 }
 
