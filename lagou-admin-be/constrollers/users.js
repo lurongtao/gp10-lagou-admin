@@ -1,5 +1,8 @@
 const userModel = require('../models/users')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const fs = require('fs')
+const path = require('path')
 
 class UserController {
   hashPassword(pwd) {
@@ -18,7 +21,14 @@ class UserController {
     })
   }
 
+  genToken(username) {
+    let cert = fs.readFileSync(path.resolve(__dirname, '../keys/rsa_private_key.pem'))
+    // let cert = 'i love u'
+    return jwt.sign({username}, cert, { algorithm: 'RS256'})
+  }
+
   async signup(req, res, next) {
+    res.set('Content-Type', 'application/json; charset=utf-8')
 
     let user = await userModel.select(req.body)
     if (user) {
@@ -29,8 +39,6 @@ class UserController {
       })
       return
     }
-
-    res.set('Content-Type', 'application/json; charset=utf-8')
 
     let password = await userController.hashPassword(req.body.password)
     let result = await userModel.insert({
@@ -60,8 +68,8 @@ class UserController {
 
     if (result) {
       if (await userController.comparePassword(req.body.password, result['password'])) {
-        // 创建session, 保存用户名
-        req.session.username = result['username']
+        //生成token
+        res.header('X-Access-Token', userController.genToken(result.username))
         res.render('succ', {
           data: JSON.stringify({
             username: result['username'],
@@ -84,32 +92,14 @@ class UserController {
     }
   }
 
-  issignin(req, res, next) {
-    res.set('Content-Type', 'application/json; charset=utf-8')
-    if (req.session.username) {
-      res.render('succ', {
-        data: JSON.stringify({
-          username: req.session.username,
-          isSignin: true
-        })
-      })
-    } else {
-      res.render('succ', {
-        data: JSON.stringify({
-          isSignin: false
-        })
-      })
-    }
-  }
-
-  signout(req, res, next) {
-    req.session = null
-    res.render('succ', {
-      data: JSON.stringify({
-        isSignin: false
-      })
-    })
-  }
+  // signout(req, res, next) {
+  //   req.session = null
+  //   res.render('succ', {
+  //     data: JSON.stringify({
+  //       isSignin: false
+  //     })
+  //   })
+  // }
 }
 
 const userController = new UserController()
