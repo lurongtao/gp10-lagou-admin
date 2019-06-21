@@ -73,3 +73,9 @@ jsonwebtoken:
 非对称加密，无法破解
 缺点：
 重放攻击
+
+https://adminlte.io/themes/AdminLTE/index2.html
+
+路由导航：
+1、组件（标签，元素）导航
+2、编程式导航：router.go()

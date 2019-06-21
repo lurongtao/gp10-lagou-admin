@@ -27,8 +27,8 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }))
 
-app.use('/', indexRouter);
-app.use('/api/users', usersRouter);
+app.use('/', indexRouter)
+app.use('/api/users', usersRouter)
 app.use('/api/position', posRouter)
 
 // catch 404 and forward to error handler

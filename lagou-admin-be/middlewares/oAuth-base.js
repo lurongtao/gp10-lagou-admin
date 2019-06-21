@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const fs = require('fs')
 const path = require('path')
 
-const oAuth = (req, res, next) => {
+const oAuthBase = (req, res, next) => {
   res.set('Content-Type', 'application/json; charset=utf-8')
   let token = req.header('X-Access-Token')
 
@@ -16,14 +16,9 @@ const oAuth = (req, res, next) => {
         })
       })
     } else {
-      res.render('succ', {
-        data: JSON.stringify({
-          username: decoded.username,
-          isSignin: true
-        })
-      })
+      next()
     }
   })
 }
 
-module.exports = oAuth
+module.exports = oAuthBase

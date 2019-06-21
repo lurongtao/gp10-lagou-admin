@@ -1,0 +1,62 @@
+<div class="box">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      <button id="addbtn" class="btn btn-block btn-success"><span class="fa fa-plus-circle"></span> 添加</button>
+    </h3>
+    <div class="box-tools">
+      <div class="input-group input-group-sm" style="width: 150px;">
+        <input type="text" id="keywords" value="" name="pos_search" class="form-control pull-right" placeholder="搜索">
+
+        <div class="input-group-btn">
+          <button type="button" id="possearch" class="btn btn-default"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box-body">
+    <table class="table table-bordered">
+      <tr>
+        <th style="width: 10px">#</th>
+        <th>公司Logo</th>
+        <th>公司名称</th>
+        <th>职位名称</th>
+        <th>工作地点</th>
+        <th>发布时间</th>
+        <th>岗位薪资</th>
+        <th style="width: 180px">操作</th>
+      </tr>
+      {{#if hasResult}}
+      {{#each data}}
+      <tr>
+        <td>{{@index}}</td>
+        <td><img width="50" height="50" src="" alt=""></td>
+        <td>{{companyName}}</td>
+        <td>{{positionName}}</td>
+        <td>{{city}}</td>
+        <td>{{createTime}}</td>
+        <td>{{salary}}</td>
+        <td>
+          <button class="btn btn-sm btn-primary"><span class="fa fa-edit"></span>
+            修改</button>
+          <button class="btn btn-sm btn-danger"><span class="fa fa-remove"></span> 删除</button>
+        </td>
+      </tr>
+      {{/each}}
+      {{else}}
+      <tr>
+        <td colspan="8"> 暂无数据. </td>
+      </tr>
+      {{/if}}
+    </table>
+  </div>
+  
+  <div class="box-footer clearfix">
+    <ul class="pagination pagination-sm no-margin pull-right">
+      <li><a href="#">&laquo;</a></li>
+      <li class="active"><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">&raquo;</a></li>
+    </ul>
+  </div>
+</div>
