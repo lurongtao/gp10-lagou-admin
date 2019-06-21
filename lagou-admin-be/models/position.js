@@ -3,6 +3,7 @@ const db = require('../utils/db')
 class PositionModel {
   constructor() {
     let PositionSchema = {
+      companyLogo: String,
       companyName: String,
       positionName: String,
       city: String,
@@ -24,7 +25,7 @@ class PositionModel {
 
   // 查询所有数据
   findAll() {
-    return this.positionModel.find({})
+    return this.positionModel.find({}).sort({_id: -1})
   }
 }
 

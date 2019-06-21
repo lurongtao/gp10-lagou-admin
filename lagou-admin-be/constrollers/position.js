@@ -10,7 +10,13 @@ class PositionController {
   }
 
   async save(req, res, next) {
-    let result = await positionModel.save(req.body)
+    // 从对象里删除 companyLogo 属性
+    delete req.body.companyLogo
+    
+    let result = await positionModel.save({
+      ...req.body,
+      companyLogo: req.filename
+    })
 
     if (result) {
       res.render('succ', {

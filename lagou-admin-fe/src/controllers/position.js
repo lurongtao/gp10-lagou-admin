@@ -38,11 +38,10 @@ function bindPositionAddEvent(res) {
   $('#posback').on('click', (e) => {
     res.back()
   })
+
   $('#possubmit').on('click', (e) => {
-    $.ajax({
-      url: '/api/position',
-      type: 'POST',
-      data: $('#possave').serialize(),
+    $('#possave').ajaxSubmit({
+      resetForm: true,
       headers: {
         'X-Access-Token': localStorage.getItem('token')
       },
