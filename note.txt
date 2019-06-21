@@ -18,3 +18,58 @@ cookie, session
 3、当用户第二次访问某个页面的时候，由于域名相同，因此会自动讲浏览器端的cookie带到后端
 4、后台会根据浏览器端返回的cookie做认证，如果匹配，认为用户有权限访问资源
 5、注销用户，将session清空即可
+
+2019-06-21
+零、架构
+1、前端后端分离的架构
+2、http(s)
+- ajax
+3、接口
+- url
+- request(header, body)
+- response(header, body<json>)
+- type(get, post, put, patch, delete)
+- content-type(formdata, json)
+4、mock
+- http-proxy-middleware
+
+一、前端
+0、RMVC
+1、UI框架(基于bootstrap/adminLTE)
+2、jQuery
+3、SEMRouter
+4、Model
+5、Handlebars
+6、Webpack(前端工程化)
+
+二、后端
+（一）技术层面
+0、RMVC
+1、Node.js + Express
+2、R: Express 路由中间件
+3、M: MongoDB + Mongoose
+4、V: EJS
+5、C: Express 业务中间件
+
+（二）登录注册
+1、cookie+session
+2、缺点
+- cookie容易被钓鱼
+- 在服务器端存储数据
+- cookie存储数据有限
+
+3、token(oAuth2)
+- 登录成功，记录用户登录状态（？）
+- 在后端生成token
+jsonwebtoken:
+- 对称
+- 非对称（自己生成公钥和私钥）
+- 通过header 将token传递给前端
+- 前端存储在localstrage里
+- 当需要鉴权的时候，前端将token再通过header传递给后端
+- 后端进行认证
+优点：
+不需要后端存储数据
+非对称加密，无法破解
+缺点：
+重放攻击
