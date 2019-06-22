@@ -14,6 +14,8 @@ class FileUpload {
   }
 
   uploadFile(req, res, next) {
+    res.set('Content-Type', 'application/json; charset=utf-8')
+    
     let filename = ''
 
     // storeage 定义文件存储信息
@@ -35,6 +37,7 @@ class FileUpload {
         });
 
         filename = rs + extFilename
+
         cb(null, filename)
       }
     })
@@ -48,14 +51,18 @@ class FileUpload {
     }).single('companyLogo')
 
     upload(req, res, (err) => {
-      if (err) {
-        res.render('fail', {
-          data: JSON.stringify(err.message)
-        })
-      } else {
-        // 传递filename 到下个中间件
-        req.filename = filename
+      if (req.body.companyLogo === '') {
         next()
+      } else {
+        if (err) {
+          res.render('fail', {
+            data: JSON.stringify(err.message)
+          })
+        } else {
+          // 传递filename 到下个中间件
+          req.filename = filename
+          next()
+        }
       }
     })
   }

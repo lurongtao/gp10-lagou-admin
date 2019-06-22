@@ -79,3 +79,11 @@ https://adminlte.io/themes/AdminLTE/index2.html
 路由导航：
 1、组件（标签，元素）导航
 2、编程式导航：router.go()
+
+2019-06-22
+联调：前端去除mock, 后端提供真实线上接口，进行前后端调试。这是APP开发重要的一个环节
+
+request body 在chrome里的类型
+Form Data: post请求，普通表单数据
+Query String Parameters: get 请求的数据
+payload data: post请求，json字符串

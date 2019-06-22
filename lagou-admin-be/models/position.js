@@ -27,6 +27,16 @@ class PositionModel {
   findAll() {
     return this.positionModel.find({}).sort({_id: -1})
   }
+
+  // 查询单条数据
+  findOne(id) {
+    return this.positionModel.findById(id)
+  }
+
+  // 删除数据
+  delete(id) {
+    return this.positionModel.findByIdAndRemove(id)
+  }
 }
 
 const positionModel = new PositionModel()
