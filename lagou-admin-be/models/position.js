@@ -24,8 +24,10 @@ class PositionModel {
   }
 
   // 查询所有数据
-  findAll() {
+  findAll(keywords) {
+    let regExp = new RegExp(keywords, "i")
     return this.positionModel.find({}).sort({_id: -1})
+      .or([{ companyName: regExp }, { positionName: regExp }])
   }
 
   // 查询单条数据
@@ -33,9 +35,21 @@ class PositionModel {
     return this.positionModel.findById(id)
   }
 
+  // 查询部分数据
+  findMany({page, pagesize, keywords}) {
+    let regExp = new RegExp(keywords, "i")
+    return this.positionModel.find({}).skip(page * pagesize).limit(pagesize).sort({_id: -1})
+      .or([{ companyName: regExp }, { positionName: regExp }])
+  }
+
   // 删除数据
   delete(id) {
     return this.positionModel.findByIdAndRemove(id)
+  }
+
+  // 更新数据
+  update(id, update) {
+    return this.positionModel.findByIdAndUpdate(id, update)
   }
 }
 

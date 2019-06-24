@@ -87,3 +87,22 @@ request body 在chrome里的类型
 Form Data: post请求，普通表单数据
 Query String Parameters: get 请求的数据
 payload data: post请求，json字符串
+
+2019-06-24
+翻页：
+1、前端
+分页器：
+- 数据库文档总个数
+- 每页显示多少条
+- 当前页的编号
+
+2、后端
+- 选取单页数据（要求的输入）
+ . 当前页
+ . 每页的条数
+
+- 选取单页数据（输出）
+ . 数据集合
+ . 数据库文档的总个数
+
+ https://lodash.com/

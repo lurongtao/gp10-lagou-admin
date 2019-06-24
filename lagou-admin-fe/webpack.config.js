@@ -19,7 +19,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, './dev'),
     compress: true,
-    host: '10.9.65.154',
+    host: 'localhost',
     port: 8000,
     proxy: {
       '/api': {

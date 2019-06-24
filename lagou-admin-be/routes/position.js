@@ -11,6 +11,7 @@ router.route('/')
   .post(fileUpload.uploadFile, positionController.save)
   .delete(positionController.delete)
 
+router.get('/find', positionController.findMany)
 router.get('/one', positionController.findOne)
 router.post('/update', fileUpload.uploadFile, positionController.update)
 

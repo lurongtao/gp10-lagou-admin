@@ -5,7 +5,7 @@
     </h3>
     <div class="box-tools">
       <div class="input-group input-group-sm" style="width: 150px;">
-        <input type="text" id="keywords" value="" name="pos_search" class="form-control pull-right" placeholder="搜索">
+        <input type="text" id="keywords" value="{{keywords}}" name="pos_search" class="form-control pull-right" placeholder="搜索">
 
         <div class="input-group-btn">
           <button type="button" id="possearch" class="btn btn-default"><i class="fa fa-search"></i></button>
@@ -26,16 +26,16 @@
         <th>岗位薪资</th>
         <th style="width: 180px">操作</th>
       </tr>
-      {{#if hasResult}}
-      {{#each data}}
-      <tr data-id="{{_id}}">
-        <td>{{@index}}</td>
-        <td><img width="50" height="50" src="http://localhost:3000/upload/{{companyLogo}}" alt=""></td>
-        <td>{{companyName}}</td>
-        <td>{{positionName}}</td>
-        <td>{{city}}</td>
-        <td>{{createTime}}</td>
-        <td>{{salary}}</td>
+      {{if hasResult}}
+      {{each data}}
+      <tr data-id="{{$value['_id']}}" data-total="{{total}}">
+        <td>{{page * pagesize + $index + 1}}</td>
+        <td><img width="50" height="50" src="http://localhost:3000/upload/{{$value['companyLogo']}}" alt=""></td>
+        <td>{{$value['companyName']}}</td>
+        <td>{{$value['positionName']}}</td>
+        <td>{{$value['city']}}</td>
+        <td>{{$value['createTime']}}</td>
+        <td>{{$value['salary']}}</td>
         <td>
           <button class="btn btn-sm btn-primary btn-update"><span class="fa fa-edit"></span>
             修改</button>
@@ -50,13 +50,18 @@
       {{/if}}
     </table>
   </div>
-  
+
+  {{if total > 0 }}
   <div class="box-footer clearfix">
     <ul class="pagination pagination-sm no-margin pull-right">
-      <li><a href="#">&laquo;</a></li>
-      <li class="active"><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">&raquo;</a></li>
+      <li><a href="{{url}}?page={{page>0 ? page-1 : 0}}&pagesize={{pagesize}}&keywords={{keywords}}">&laquo;</a></li>
+      {{each pagecount}}
+      <li class="{{if $index === page}} active {{/if}}">
+        <a href="{{url}}?page={{$index}}&pagesize={{pagesize}}&keywords={{keywords}}">{{$value}}</a>
+      </li>
+      {{/each}}
+      <li><a href="{{url}}?page={{page < (pagecount.length-1) ? (page+1) : (pagecount.length-1)}}&pagesize={{pagesize}}&keywords={{keywords}}">&raquo;</a></li>
     </ul>
   </div>
+  {{/if}}
 </div>
