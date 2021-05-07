@@ -19,7 +19,7 @@
     "build:dev": "webpack"
   },
   "dependencies": {
-    "handlebars": "^4.1.2",
+    "handlebars": "^4.7.7",
     "randomstring": "^1.1.5",
     "sme-router": "^0.12.8"
   }
